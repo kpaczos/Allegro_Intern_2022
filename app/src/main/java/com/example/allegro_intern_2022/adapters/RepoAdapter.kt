@@ -7,8 +7,9 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.allegro_intern_2022.databinding.ItemRepoPreviewBinding
+import com.example.allegro_intern_2022.fragments.HomeFragmentDirections
 import com.example.allegro_intern_2022.models.RepoResponseItem
-import com.example.allegro_intern_2022.ui.HomeFragmentDirections
+
 
 
 class RepoAdapter:RecyclerView.Adapter<RepoAdapter.RepoViewHolder>() {

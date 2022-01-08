@@ -1,4 +1,4 @@
-package com.example.allegro_intern_2022.ui
+package com.example.allegro_intern_2022.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.allegro_intern_2022.R
 import com.example.allegro_intern_2022.adapters.RepoAdapter
 import com.example.allegro_intern_2022.databinding.FragmentListRepositoriesBinding
+import com.example.allegro_intern_2022.ui.RepoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -42,8 +44,7 @@ class HomeFragment:Fragment(R.layout.fragment_list_repositories) {
         repoAdapter = RepoAdapter()
 
         binding.repoList.apply {
-            layoutManager = GridLayoutManager(requireContext(),1)
-            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(activity)
             adapter = repoAdapter
         }
 

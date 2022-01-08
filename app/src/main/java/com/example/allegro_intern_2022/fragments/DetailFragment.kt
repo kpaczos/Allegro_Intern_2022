@@ -1,4 +1,4 @@
-package com.example.allegro_intern_2022.ui
+package com.example.allegro_intern_2022.fragments
 
 import android.os.Bundle
 import android.text.Html
