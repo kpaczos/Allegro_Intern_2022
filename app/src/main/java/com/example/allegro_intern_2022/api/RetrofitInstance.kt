@@ -1,29 +1,25 @@
 package com.example.allegro_intern_2022.api
 
 import com.example.allegro_intern_2022.Constants.Companion.BASE_URL
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
-class RetrofitInstance {
-    companion object {
+@Module
+@InstallIn(SingletonComponent::class)
+object RetrofitInstance {
 
-        private val retrofit by lazy {
-            val logging = HttpLoggingInterceptor()
-            logging.setLevel(HttpLoggingInterceptor.Level.BODY)
-            val client = OkHttpClient.Builder()
-                .addInterceptor(logging)
-                .build()
-            Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
-                .build()
-        }
+    @Provides
+    @Singleton
+    fun provideRetrofitInstance(): RepoAPI =
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(RepoAPI::class.java)
 
-        val api by lazy {
-            retrofit.create(RepoAPI::class.java)
-        }
-    }
 }

@@ -1,41 +1,66 @@
 package com.example.allegro_intern_2022.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
-import com.bumptech.glide.Glide
-import com.example.allegro_intern_2022.R
+import com.example.allegro_intern_2022.databinding.ItemRepoPreviewBinding
 import com.example.allegro_intern_2022.models.RepoResponseItem
-import kotlinx.android.synthetic.main.item_repo_preview.view.*
+import com.example.allegro_intern_2022.ui.HomeFragmentDirections
 
-class RepoAdapter(val repos:List<RepoResponseItem>,val listener:OnAdapterListener):RecyclerView.Adapter<RepoAdapter.RepoViewHolder>() {
 
-    inner class RepoViewHolder(itemView:View):RecyclerView.ViewHolder(itemView)
+class RepoAdapter:RecyclerView.Adapter<RepoAdapter.RepoViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepoViewHolder {
-        return RepoViewHolder(LayoutInflater.from(parent.context).inflate(
-            R.layout.item_repo_preview,
-            parent,
-            false
-        ))
-    }
+    inner class RepoViewHolder(val binding: ItemRepoPreviewBinding):RecyclerView.ViewHolder(binding.root)
 
-    override fun onBindViewHolder(holder: RepoViewHolder, position: Int) {
-        val repository = repos[position]
-        holder.itemView.apply {
-          name.text = repository.name
-            description.text = repository.description
-            setOnClickListener { listener.onCLick(repository) }
+    private val diffCallback = object : DiffUtil.ItemCallback<RepoResponseItem>() {
+        override fun areItemsTheSame(
+            oldItem: RepoResponseItem,
+            newItem: RepoResponseItem
+        ): Boolean {
+            return oldItem.id ==newItem.id
+        }
+
+        override fun areContentsTheSame(
+            oldItem: RepoResponseItem,
+            newItem: RepoResponseItem
+        ): Boolean {
+            return oldItem ==newItem
         }
     }
 
-    override fun getItemCount(): Int {
-       return repos.size
+    private val differ = AsyncListDiffer(this,diffCallback)
+    var repository:List<RepoResponseItem>
+    get() = differ.currentList
+    set(value) {
+        differ.submitList(value)
     }
 
-    interface OnAdapterListener{
-        fun onCLick(result:RepoResponseItem)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepoViewHolder {
+        return RepoViewHolder(ItemRepoPreviewBinding.inflate(
+            LayoutInflater.from(parent.context),parent,false
+        ))
     }
+
+    override fun onBindViewHolder(holder: RepoViewHolder, position: Int){
+        val currRepo = repository[position]
+
+        holder.binding.apply {
+            name.text = currRepo.name
+            description.text = currRepo.description
+            language.text = currRepo.language
+        }
+
+        holder.itemView.setOnClickListener { mView->
+            val direction = HomeFragmentDirections
+                .actionHomeFragmentToDetailFragment(currRepo)
+            mView.findNavController().navigate(direction)
+        }
+    }
+
+    override fun getItemCount() = repository.size
+
+
 }

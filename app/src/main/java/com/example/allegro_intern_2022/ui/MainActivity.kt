@@ -1,11 +1,15 @@
-package com.example.allegro_intern_2022
+package com.example.allegro_intern_2022.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.allegro_intern_2022.R
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_list_repositories)
+        setContentView(R.layout.activity_main)
+
     }
 }

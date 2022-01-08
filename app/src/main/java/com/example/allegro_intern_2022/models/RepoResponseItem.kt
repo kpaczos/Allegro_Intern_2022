@@ -1,5 +1,10 @@
 package com.example.allegro_intern_2022.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+
+@Parcelize
 data class RepoResponseItem(
     val allow_forking: Boolean,
     val archive_url: String,
@@ -50,7 +55,6 @@ data class RepoResponseItem(
     val license: License,
     val merges_url: String,
     val milestones_url: String,
-    val mirror_url: Any,
     val name: String,
     val node_id: String,
     val notifications_url: String,
@@ -72,11 +76,10 @@ data class RepoResponseItem(
     val svn_url: String,
     val tags_url: String,
     val teams_url: String,
-    val topics: List<Any>,
     val trees_url: String,
     val updated_at: String,
     val url: String,
     val visibility: String,
     val watchers: Int,
     val watchers_count: Int
-)
+) :Parcelable
